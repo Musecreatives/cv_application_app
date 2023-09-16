@@ -1,41 +1,34 @@
 import 'package:cv_application/screens/edit_screen.dart';
-import 'package:cv_application/src/db/cv_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
-import '../src/common_widgets/profile_card_widget.dart';
+import '../src/db/database.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<Form> form;
+  Data profileData = Data();
   bool isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    refreshForms();
-  }
-
-  @override
-  void dispose() {
-    CvDatabase.instance.close();
-
-    super.dispose();
-  }
-
-  Future refreshForms() async {
-    setState(() => isLoading = true);
-
-    form = (await CvDatabase.instance.readAllForms()).cast<Form>();
-
-    setState(() => isLoading = false);
+  void refreshHomeScreen({
+    String? fullName,
+    String? slackUserName,
+    String? bioSummary,
+    String? githubUserName,
+    List<String>? skills,
+  }) {
+    setState(() {
+      profileData.fullName = fullName!;
+      profileData.slackUserName = slackUserName!;
+      profileData.bioSummary = bioSummary!;
+      profileData.githubUserName = githubUserName!;
+      profileData.skills = skills!;
+    });
   }
 
   @override
@@ -58,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EditScreen()),
+                  MaterialPageRoute(builder: (context) => EditScreen(updateProfilescreen: refreshHomeScreen,)),
                 );
               },
               icon: const Icon(
@@ -67,21 +60,189 @@ class _HomeScreenState extends State<HomeScreen> {
               )),
         ],
       ),
-      body: Container(
-        child: isLoading ? const CircularProgressIndicator() : form.isEmpty ? Text(
-          'No Profile Information',
-          style: GoogleFonts.montserrat(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
-              color: Colors.black)
-        ) : ListView.builder(
-          itemCount: form.length,
-          itemBuilder: (BuildContext context, int index) {
-
-            return ProfileCardWidget(
-              form: form[index],
-              key: UniqueKey(),);
-          },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 90,
+                            height: 90,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: const Image(
+                                  image:
+                                      AssetImage('assets/images/profile.png'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                profileData.fullName,
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black),
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                profileData.slackUserName,
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14.0,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    LineAwesomeIcons.github,
+                                    size: 30.0,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    width: 8.0,
+                                  ),
+                                  Text(
+                                    profileData.githubUserName,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 14.0,
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 25.0,
+                  ),
+                  Text(
+                    profileData.bioSummary,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14.0,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Text(
+                    'Skills',
+                    style: GoogleFonts.montserrat(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Flutter',
+                            style: GoogleFonts.montserrat(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 76, 59, 59),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'JavaScript',
+                            style: GoogleFonts.montserrat(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Dart',
+                            style: GoogleFonts.montserrat(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'C/C++',
+                            style: GoogleFonts.montserrat(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -92,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // Navigate to the editing screen
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EditScreen()),
+            MaterialPageRoute(builder: (context) => EditScreen(updateProfilescreen: refreshHomeScreen,)),
           );
         },
         child: const Icon(Icons.edit),
@@ -100,5 +261,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-   
