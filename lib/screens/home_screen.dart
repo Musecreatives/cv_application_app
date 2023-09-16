@@ -20,14 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
     String? slackUserName,
     String? bioSummary,
     String? githubUserName,
-    List<String>? skills,
   }) {
     setState(() {
       profileData.fullName = fullName!;
       profileData.slackUserName = slackUserName!;
       profileData.bioSummary = bioSummary!;
       profileData.githubUserName = githubUserName!;
-      profileData.skills = skills!;
     });
   }
 

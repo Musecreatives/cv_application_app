@@ -53,81 +53,81 @@ class _EditScreenState extends State<EditScreen> {
               icon: const Icon(LineAwesomeIcons.angle_left)),
           title: const Text('Edit CV'),
         ),
-        body: Form(
-          child: Container(
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               vertical: tFormHeight - 10,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        /* Profile Image*/
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: 90,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: const Image(
-                                    image:
-                                        AssetImage('assets/images/profile.png'),
-                                    fit: BoxFit.cover),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      /* Profile Image*/
+                      Stack(
+                        children: [
+                          SizedBox(
+                            width: 90,
+                            height: 90,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: const Image(
+                                  image:
+                                      AssetImage('assets/images/profile.png'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: const Icon(
+                                LineAwesomeIcons.camera,
+                                color: Colors.white,
+                                size: 15,
                               ),
                             ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: const Icon(
-                                  LineAwesomeIcons.camera,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        /* Profile Image end*/
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        /* -- Form -- */
-                        buildName(
-                            context: context, controller: fullNameController),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        buildUsername(
-                            context: context,
-                            controller: slackUserNameController),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        buildGithubUsername(
-                            context: context,
-                            controller: githubUserNameController),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        buildBio(context: context, controller: bioController),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        /* -- Form -- */
-                        buildButton(),
-                      ],
-                    ),
+                          )
+                        ],
+                      ),
+                      /* Profile Image end*/
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      /* -- Form -- */
+                      buildName(
+                          context: context, controller: fullNameController),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildUsername(
+                          context: context,
+                          controller: slackUserNameController),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildGithubUsername(
+                          context: context,
+                          controller: githubUserNameController),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildBio(context: context, controller: bioController),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      /* -- Form -- */
+                      buildButton(),
+                    ],
                   ),
                 ),
               ],
@@ -163,16 +163,28 @@ class _EditScreenState extends State<EditScreen> {
           });
         }
       },
-      child: SizedBox(
+      child: Container(
+        height: tFormHeight + 10 ,
         width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, tFormHeight),
-            backgroundColor: Colors.black,
-          ),
-          onPressed: () {},
-          child: const Text('Save'),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.black,
         ),
+                 child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         const Text(
+                          "Save",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                        ),
+                        isLoading?const SizedBox(
+                        height: 20,
+                        width: 20 ,
+                        child: CircularProgressIndicator(color: Colors.black)): SizedBox()
+                      ],
+                    ),
       ),
     );
   }
