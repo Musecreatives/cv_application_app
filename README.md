@@ -1,17 +1,25 @@
 # cv_application
 
-A new Flutter project.
+Step 1: Setup Flutter:
+Make sure you have Flutter installed on your system. Follow the official Flutter installation guide for your platform: Flutter Installation.
 
-## Getting Started
+Step 2: Create a New Flutter Project:
+Open your terminal/command prompt and create a new Flutter project using the following command:
 
-This project is a starting point for a Flutter application.
+Step 3: Design Your CV Screens:
+Decide on the screens and layout for your CV application. Typical screens include:
 
-A few resources to get you started if this is your first Flutter project:
+HomeScreen
+EditScreen
+SkillsScreen
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Step 4: Create Data Models:
+Define data models to represent your CV content.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# cv_application_app
+Step 5: Populate CV Data:
+Populate your CV data within your Flutter application.
+
+Step 6: Create Screen and Navigation
+
+Step 7: Display CV Screen
+
